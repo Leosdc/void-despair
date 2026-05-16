@@ -2,8 +2,6 @@
 
 [![Jogue Agora](https://img.shields.io/badge/JOGAR-AGORA-blueviolet?style=for-the-badge&logo=github)](https://leosdc.github.io/void-despair/)
 
-![Void Despair Banner](https://lyrathewise.lat/wp-content/uploads/2024/05/banner-void-despair.png) 
-
 **Void Despair** é um jogo arcade de sobrevivência frenético desenvolvido como uma peça promocional para o personagem **Damien Kael**, do sistema de RPG **Lyra the Wise**.
 
 ## 🌌 O Jogo
