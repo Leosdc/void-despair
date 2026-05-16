@@ -1,0 +1,25 @@
+# IDEs e Ferramentas
+.gemini/
+.vscode/
+.idea/
+*.swp
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Configurações Locais e Segredos
+.env
+.env.local
+.env.*.local
+
+# Dependências (caso venha a usar npm)
+node_modules/
+dist/
+build/
+
+# Firebase (não necessário para o deploy no GitHub Pages)
+firebase.json
+firestore.rules
+.firebase/
