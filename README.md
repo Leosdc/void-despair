@@ -11,7 +11,6 @@ Enfrente a fome além do véu. No papel de Damien Kael, você deve sobreviver a 
 ### Características
 - **Mecânica de Escudo Dinâmico**: Recrute partículas do ambiente para formar sua defesa.
 - **Sinfonia do Vazio**: Gameplay sincronizado com a trilha sonora original de Damien Kael.
-- **Ranking Global**: Registre sua sobrevivência no ranking persistente via Firebase.
 - **Estética Cyber-Dark**: Visual minimalista com efeitos de neon e glassmorphism.
 
 ## 🕹️ Controles
@@ -25,7 +24,6 @@ Enfrente a fome além do véu. No papel de Damien Kael, você deve sobreviver a 
 
 - **Linguagem**: Vanilla JavaScript (ES6+).
 - **Renderização**: HTML5 Canvas API.
-- **Backend**: Firebase Firestore (Ranking em tempo real).
 - **Estilização**: CSS3 com foco em performance e animações fluidas.
 
 ## 🚀 Como Jogar Localmente

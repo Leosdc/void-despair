@@ -93,63 +93,20 @@
   #overlay.state-gameover #screen-gameover { display:flex; }
   #overlay.state-victory #screen-victory { display:flex; }
 
-  /* Leaderboard Modal */
-  #ranking-modal {
-    position: fixed; inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    display: none; flex-direction: column;
-    align-items: center; justify-content: center;
-    z-index: 200; opacity: 0; transition: 0.4s;
-  }
-  #ranking-modal.active { display: flex; opacity: 1; }
-  
-  #leaderboard {
-    width: 90%; max-width: 450px;
-    background: rgba(20, 0, 40, 0.8);
-    border: 1px solid rgba(180, 100, 255, 0.3);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5), 0 0 20px rgba(180,100,255,0.1);
-  }
-  .rank-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(180, 100, 255, 0.1);
-    font-size: 12px;
-    color: rgba(200, 160, 255, 0.8);
-    letter-spacing: 1px;
-  }
-  .rank-item:last-child { border-bottom: none; }
-  .rank-name { font-weight: bold; color: #c89fff; }
-  .rank-score { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: #fff; }
-  .rank-pos { width: 30px; font-weight: bold; color: rgba(180,100,255,0.5); }
-  .rank-item:nth-child(1) .rank-pos { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
-  .rank-item:nth-child(2) .rank-pos { color: #c0c0c0; }
-  .rank-item:nth-child(3) .rank-pos { color: #cd7f32; }
-
-  /* Victory Input */
-  .input-group {
+  /* Victory Notice */
+  .victory-notice {
     margin: 20px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  #player-name-input {
-    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 28px;
     border: 1px solid rgba(180, 100, 255, 0.4);
-    color: #fff;
-    padding: 12px 20px;
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    text-align: center;
     border-radius: 4px;
-    outline: none;
-    width: 250px;
+    background: rgba(180, 100, 255, 0.08);
+    color: #c89fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(180, 100, 255, 0.15);
   }
-  #player-name-input:focus { border-color: #c89fff; box-shadow: 0 0 15px rgba(180, 100, 255, 0.3); }
 
   /* Volume Slider */
   .volume-control {
@@ -211,7 +168,6 @@
     </div>
     <div style="display:flex; gap:15px; margin-top:10px;">
       <button class="btn" onclick="startGame()">INICIAR SEQUÊNCIA</button>
-      <button class="btn" style="background:rgba(180,100,255,0.05);" onclick="openRanking()">RANKING</button>
     </div>
     <div class="volume-control">
       <div class="volume-label">Sinfonia do Vazio</div>
@@ -225,15 +181,6 @@
     </div>
   </div>
 
-  <div id="ranking-modal">
-    <div id="leaderboard">
-      <div class="sub" style="margin-bottom:20px; text-align:center; color:#c89fff; font-size:12px;">Top Sobreviventes</div>
-      <div id="rank-list">
-        <div class="rank-item"><span class="rank-name">Carregando...</span></div>
-      </div>
-      <button class="btn" style="width:100%; margin-top:20px; border-color:rgba(180,100,255,0.2);" onclick="closeRanking()">FECHAR</button>
-    </div>
-  </div>
   <div id="screen-gameover" class="screen">
     <h1 style="font-size:clamp(60px,12vw,120px);">GAME<br>OVER</h1>
     <div class="sub" id="gameover-score" style="margin-bottom:44px;">you survived <span id="final-score">0</span>s</div>
@@ -246,9 +193,8 @@
       The loop is broken. Your soul endures.<br>
       Total time: <span id="victory-score" style="color:#c89fff; font-weight:bold;">0</span>s
     </div>
-    <div class="input-group">
-      <input type="text" id="player-name-input" placeholder="SEU NOME" maxlength="15">
-      <button id="save-score-btn" class="btn" onclick="submitScore()">REGISTRAR DESTINO</button>
+    <div class="victory-notice">
+      PRINT SUA VITÓRIA
     </div>
     <button class="btn" style="border:none; font-size:8px; opacity:0.6;" onclick="restartGame()">REPLAY</button>
     <div class="promo-box" style="margin-top:40px; border-top-color:rgba(180,100,255,0.05);">
@@ -262,26 +208,7 @@
 
 <audio id="bgm" src="damien-theme.mp3" preload="auto"></audio>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 <script>
-// Firebase Configuration (Novo Projeto)
-const firebaseConfig = {
-  projectId: "void-despair-rank",
-  appId: "1:233427402205:web:0d988bd0868a9b6fd0ca34",
-  storageBucket: "void-despair-rank.firebasestorage.app",
-  apiKey: "AIzaSyDtYnrjdzJ6y_YQR8_o_Ec1_u-qjehBmjA",
-  authDomain: "void-despair-rank.firebaseapp.com",
-  messagingSenderId: "233427402205"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const RANKING_COLLECTION = 'ranking';
-
 const canvas = document.getElementById('c');
 const ctx    = canvas.getContext('2d');
 let W, H;
@@ -923,81 +850,12 @@ function startGame() {
 }
 
 function restartGame() {
-  loadRanking();
   startGame();
 }
 
 function updateVolume(val) {
   bgm.volume = val;
   localStorage.setItem('void_despair_volume', val);
-}
-
-// ── Ranking Logic ──────────────────────────────────────────────
-async function loadRanking() {
-  const rankList = document.getElementById('rank-list');
-  try {
-    const snapshot = await db.collection(RANKING_COLLECTION)
-      .orderBy('score', 'desc')
-      .limit(10)
-      .get();
-    
-    rankList.innerHTML = '';
-    if (snapshot.empty) {
-      rankList.innerHTML = '<div class="rank-item" style="justify-content:center;">Ainda não há registros. Seja o primeiro!</div>';
-      return;
-    }
-
-    let i = 1;
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const item = document.createElement('div');
-      item.className = 'rank-item';
-      item.innerHTML = `
-        <span class="rank-pos">#${i++}</span>
-        <span class="rank-name" style="flex:1; margin-left:15px;">${data.name || 'Anonymous'}</span>
-        <span class="rank-score">${Math.floor(data.score)}s</span>
-      `;
-      rankList.appendChild(item);
-    });
-  } catch (e) {
-    console.error("Ranking offline or DB not initialized:", e);
-    rankList.innerHTML = '<div class="rank-item" style="justify-content:center;">Ranking offline no momento.</div>';
-  }
-}
-
-function openRanking() {
-  loadRanking();
-  document.getElementById('ranking-modal').classList.add('active');
-}
-
-function closeRanking() {
-  document.getElementById('ranking-modal').classList.remove('active');
-}
-
-async function submitScore() {
-  const nameInput = document.getElementById('player-name-input');
-  const btn = document.getElementById('save-score-btn');
-  const name = nameInput.value.trim() || 'Void Walker';
-  
-  btn.disabled = true;
-  btn.textContent = 'SAVING...';
-
-  try {
-    await db.collection(RANKING_COLLECTION).add({
-      name: name,
-      score: score,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    btn.textContent = 'RECORDED';
-    setTimeout(() => {
-      restartGame();
-    }, 1500);
-  } catch (e) {
-    console.error("Error saving score:", e);
-    alert("Erro ao salvar no banco. Verifique se o Firestore está ativo.");
-    btn.textContent = 'ERROR';
-    btn.disabled = false;
-  }
 }
 
 function triggerVictory() {
@@ -1009,8 +867,6 @@ function triggerVictory() {
   const ov = document.getElementById('overlay');
   ov.className = 'state-victory';
 }
-
-loadRanking(); // Inicializa o ranking
 
 // ── Input ──────────────────────────────────────────────────────
 document.addEventListener('mousemove',e=>{ mouseX=e.clientX; mouseY=e.clientY; });

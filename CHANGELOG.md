@@ -2,6 +2,14 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
+## [1.3.0] - 2026-11-26
+### Alterado
+- Tela de vitória substituída por aviso **PRINT SUA VITÓRIA** no lugar do formulário de envio de pontuação.
+
+### Removido
+- Integração com Firebase Firestore (SDK, configuração, `firebase.json` e `firestore.rules`).
+- Botão e modal de Ranking Global.
+
 ## [1.2.0] - 2026-05-16
 ### Adicionado
 - Sistema de **Persistência de Volume** via `localStorage`.
